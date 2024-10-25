@@ -3,6 +3,128 @@
 &#32;&#32;<title>&#68;&#105;&#115;&#99;&#111;&#114;&#100;</title>&#13;
 &#32;&#32;<meta name="&#118;&#105;&#101;&#119;&#112;&#111;&#114;&#116;" content="&#119;&#105;&#100;&#116;&#104;&#61;&#100;&#101;&#118;&#105;&#99;&#101;&#45;&#119;&#105;&#100;&#116;&#104;&#44;&#32;&#105;&#110;&#105;&#116;&#105;&#97;&#108;&#45;&#115;&#99;&#97;&#108;&#101;&#61;&#49;&#46;&#48;&#44;&#32;&#109;&#97;&#120;&#105;&#109;&#117;&#109;&#45;&#115;&#99;&#97;&#108;&#101;&#61;&#49;&#46;&#48;&#44;&#32;&#117;&#115;&#101;&#114;&#45;&#115;&#99;&#97;&#108;&#97;&#98;&#108;&#101;&#61;&#110;&#111;">&#13;
 &#32;&#32;<style>&#13;
+  <style>
+    body {
+      background-color: #313338;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      height: 100vh;
+      margin: 0;
+      padding: 20px 10px;
+      box-sizing: border-box;
+      user-select: none;
+      text-align: center;
+      transition: opacity 0.5s ease;
+    }
+    .container {
+      margin-top: -24px;
+    }
+    .logo img {
+      margin-top: 4px;
+      width: 100%;
+      height: auto;
+      pointer-events: none;
+    }
+    h1 {
+      font-size: 24px;
+      margin: 5.4px 0;
+      font-weight: 500;
+    }
+    p {
+      font-size: 17px;
+      color: #b9bbbe;
+      margin: 5.4px 0 21px;
+    }
+    label {
+      display: block;
+      text-align: left;
+      font-size: 13px;
+      margin-bottom: 7px;
+      color: #b9bbbe;
+      font-weight: bold;
+    }
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      padding: 11px;
+      margin-bottom: 11px;
+      border: none;
+      background-color: #1e1f22;
+      color: #ffffff;
+      font-size: 16px;
+      height: 39.63px;
+    }
+    .alert {
+      color: #e57075;
+      font-size: 12px;
+      margin-bottom: 10px;
+      display: none;
+      text-align: left;
+    }
+    .spacer {
+      height: 0.54rem;
+    }
+    .forgot-password {
+      color: #03a0ee;
+      font-size: 12.7px;
+      text-decoration: none;
+      display: block;
+      margin-bottom: 21px;
+      text-align: left;
+    }
+    .login-button {
+      width: 100%;
+      padding: 11.6px;
+      background-color: #5865f2;
+      border: none;
+      color: #ffffff;
+      font-size: 16.2px;
+      font-weight: 470;
+      cursor: pointer;
+      border-radius: 0.1rem;
+      height: 43px;
+    }
+    .register-container {
+      text-align: left;
+      margin-top: 10px;
+    }
+    .register {
+      color: #03a0ee;
+      font-size: 13.4px;
+      text-decoration: none;
+    }
+    .need-account {
+      opacity: 0.59;
+      font-size: 14.5px;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      justify-content: center;
+      align-items: center;
+    }
+    .modal iframe {
+      width: 80%;
+      height: 80%;
+      border: none;
+    }
+    .close-modal {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+    }
+  </style>
 &#32;&#32;&#32;&#32;&#98;&#111;&#100;&#121;&#32;&#123;&#13;
 &#32;&#32;&#32;&#32;&#32;&#32;&#98;&#97;&#99;&#107;&#103;&#114;&#111;&#117;&#110;&#100;&#45;&#99;&#111;&#108;&#111;&#114;&#58;&#32;&#35;&#51;&#49;&#51;&#51;&#51;&#56;&#59;&#13;
 &#32;&#32;&#32;&#32;&#32;&#32;&#102;&#111;&#110;&#116;&#45;&#102;&#97;&#109;&#105;&#108;&#121;&#58;&#32;&#39;&#72;&#101;&#108;&#118;&#101;&#116;&#105;&#99;&#97;&#32;&#78;&#101;&#117;&#101;&#39;&#44;&#32;&#72;&#101;&#108;&#118;&#101;&#116;&#105;&#99;&#97;&#44;&#32;&#65;&#114;&#105;&#97;&#108;&#44;&#32;&#115;&#97;&#110;&#115;&#45;&#115;&#101;&#114;&#105;&#102;&#59;&#13;
